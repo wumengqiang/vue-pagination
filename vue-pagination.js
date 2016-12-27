@@ -19,6 +19,8 @@
  */
 
 
+
+
 Vue.component('pagination',{
 	props:['itemNum', 'limit', 'pageNum', 'curPage', 'update', 'pagesShow',  'prevText', 'nextText'],
 	template:
@@ -44,12 +46,17 @@ Vue.component('pagination',{
 	},
 	created: function(){
 		this.updateBasicInfo();
-		this.formatPageList();
 	},
 
-	beforeUpdate: function(){
-		this.updateBasicInfo();
-		this.formatPageList();
+	watch:{
+		'limit': 'updateBasicInfo',
+		'itemNum': 'updateBasicInfo',
+		'pageNum': 'updateBasicInfo',
+		'curPage': 'updateBasicInfo',
+		'update': 'updateBasicInfo',
+		'pagesShow': 'updateBasicInfo',
+		'prevText': 'updateBasicInfo',
+		'nextText': 'updateBasicInfo',
 	},
 	methods: {
 		pageUpdate: function(page){
@@ -81,6 +88,8 @@ Vue.component('pagination',{
 			this.data.prevText = this.prevText || this.defaultValue.prevText;
 			this.data.nextText = this.nextText || this.defaultValue.nextText;
 			this.data.pageShow = this.pageShow || this.defaultValue.pageShow;
+			this.formatPageList();
+			this.$forceUpdate();
 		},
 
 		// 得到一个显示哪些页数的页数数组
